@@ -2,38 +2,44 @@ pipeline {
     agent any
 
     stages {
-        stage('List files') {
+        stage('Checkout') {
             steps {
-                bat 'dir'
+                // Récupérer le code depuis le dépôt Git
+                git branch: 'main', url: 'https://github.com/GJislaine/DevSecOps.git'
             }
         }
-        stage('Compile') {
+
+        stage('Build') {
             steps {
-                bat 'javac -d out src/main/java/com/org/demo/SpringDataRestApplication.java'
+               
+                 sh 'mvn clean install' 
+                
             }
         }
+
         stage('Test') {
             steps {
-                bat 'java -classpath lib/* src/MainTest.java'
+               
+               
+                sh 'mvn test' 
+                
             }
         }
-        stage('Run') {
+
+        stage('Deploy') {
             steps {
-                bat 'java -cp out Main'
+               
+                echo 'Déploiement en cours...'
             }
         }
     }
 
     post {
-        always {
-            echo 'Pipeline completed.'
-            archiveArtifacts artifacts: 'out/*.class', allowEmptyArchive: true
-        }
         success {
-            echo 'Build and tests were successful!'
+            echo 'Build réussi !'
         }
         failure {
-            echo 'There was an error in the pipeline.'
+            echo 'Le build a échoué.'
         }
     }
 }
