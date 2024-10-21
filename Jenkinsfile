@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                bat 'javac -d out src/Main.java'
+                bat 'javac -d out src/SpringDataRestApplication.java'
             }
         }
         stage('Test') {
