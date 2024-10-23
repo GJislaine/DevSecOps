@@ -1,11 +1,10 @@
-
 pipeline {
     agent any
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/GJislaine/DevSecOps.git'
+                git 'https://github.com/Mohamed-KBIBECH/DevSecOps.git'
             }
         }
         
@@ -15,12 +14,6 @@ pipeline {
                 bat 'docker build -t devsecops .'
             }
         }
-
-  
-
-       
-
-    
 
         stage('Test') {
             steps {
@@ -33,8 +26,7 @@ pipeline {
                 bat 'mvnw.cmd package'
             }
         }
-
-       
+    } // Fermeture correcte du bloc stages
 
     post {
         always {
@@ -46,5 +38,5 @@ pipeline {
         failure {
             echo 'Le build a échoué.'
         }
-    }
-}
+    } // Fermeture correcte du bloc post
+} // Fermeture correcte du bloc pipeline
