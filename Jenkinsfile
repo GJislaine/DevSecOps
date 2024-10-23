@@ -7,10 +7,12 @@ pipeline {
                 git 'https://github.com/Mohamed-KBIBECH/DevSecOps.git'
             }
         }
-        stage('Build-Maven){
+        stage ('Build-Maven'){
               steps{
                   echo 'building maven'
-                  bat 'mvn clean package' }}
+                  bat 'mvn clean package' 
+              }
+              }
               
         stage('Build Docker Image') {
             steps {
