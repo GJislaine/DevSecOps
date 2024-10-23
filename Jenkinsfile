@@ -1,42 +1,47 @@
+
 pipeline {
     agent any
 
     stages {
         stage('Checkout') {
             steps {
-                // Récupérer le code depuis le dépôt Git
-                git branch: 'main', url: 'https://github.com/GJislaine/DevSecOps.git'
+                git 'https://github.com/GJislaine/DevSecOps.git'
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                echo 'Construction de l\'image Docker...'
+                bat 'docker build -t devsecops .'
             }
         }
 
-        stage('Build') {
-            steps {
-               
-                 sh 'mvn clean install' 
-                
-            }
-        }
+  
+
+       
+
+    
 
         stage('Test') {
             steps {
-               
-               
-                sh 'mvn test' 
-                
+                bat 'mvnw.cmd test'
             }
         }
 
-        stage('Deploy') {
+        stage('Package') {
             steps {
-               
-                echo 'Déploiement en cours...'
+                bat 'mvnw.cmd package'
             }
         }
-    }
+
+       
 
     post {
+        always {
+            archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+        }
         success {
-            echo 'Build réussi !'
+            echo 'Le build a réussi et les tests ont été validés !'
         }
         failure {
             echo 'Le build a échoué.'
