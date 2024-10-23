@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Mohamed-KBIBECH/DevSecOps.git'
+                git 'https://github.com/GJislaine/DevSecOps.git'
             }
         }
         stage ('Build-Maven'){
